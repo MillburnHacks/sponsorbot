@@ -23,7 +23,7 @@ class Business {
 	email(next) {
 		request(this.website, (err, code, response) => {
 			if (err) {
-				console.log(err);
+				// console.log(err);
 				return;
 			}
 
@@ -43,16 +43,36 @@ class Business {
 								.map((a) => a.slice("mailto:".length, a.length - 1))
 								.forEach((email) => next(email))
 						} catch (error) {
-							console.log(error);
+							// console.log(error);
 						}
 					}))
-					// .map((link) => next(link))
 			} catch (error) {
-				console.log("Skipping", this.name);
-				console.log(error);
+				// console.log("Skipping", this.name);
+				// console.log(error);
 			}
 		})
 	}
 }
 
-module.exports = Business;
+const latitude = 40.7;
+const longitude = -74;
+const queries = [
+	"ai",
+	"restaurant",
+	"business"
+];
+for (let query of queries)
+request(`
+	https://api.foursquare.com/v2/venues/search?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&v=20130815&ll=${latitude},${longitude}&query=${query}`, (error, code, response) => {
+	if (error) {
+		console.error(error);
+		return;
+	}
+
+	const venues = JSON.parse(response).response.venues;
+
+	for (let venue of venues) {
+		if (venue.url && venue.name)
+			(new Business(venue.name, venue.url)).email(console.log)
+	}
+})
