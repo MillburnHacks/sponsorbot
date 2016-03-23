@@ -38,13 +38,28 @@ module.exports = class Business {
 
 	get formEmail() {
 		return `
-			Hey, ${this.name}!
+		Hello ${this.name},
 
+		I am an organizer of hackMHS II, a hackathon at Millburn High School in
+		New Jersey. At our hackathon, our mission is to build an inclusive
+		community in which students can learn new skills, grow as developers,
+		and collaborate to create innovative technology.
 
+		On May 21st, over 200 high school students from many districts will
+		attend hackMHS II and code for 24 hours. They will be provided free meals,
+		phenomenal tech workshops, knowledgeable mentors, and the opportunity to
+		talk to sponsoring companies. In order to make this a memorable and
+		outstanding hackathon, you can aid us by sponsoring our event through
+		monetary contributions or company products and services. In return, we
+		have several sponsor benefits. I would be more than happy to send you
+		information or schedule a call to discuss our sponsorship tiers and benefits.
+
+		Best,
+		Abhinav Madahar
 		`
 	}
 
-	email(next) {
+	findEmail(next) {
 		request(this.website, (err, code, homepage) => {
 			if (err) {
 				logarithmic.warning(err);

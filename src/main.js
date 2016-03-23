@@ -24,9 +24,7 @@ for (let query of queries) {
 		for (let venue of venues) {
 			if (venue.url && venue.name) {
 				logarithmic.alert("Checking", venue.name, "at", venue.url);
-				(new Business(venue.name, venue.url)).email((email) => {
-					logarithmic.ok("Found email: " + email);
-				})
+				(new Business(venue.name, venue.url)).sendEmail();
 			}
 		}
 	})
