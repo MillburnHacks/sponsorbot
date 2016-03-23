@@ -1,5 +1,8 @@
+"use strict";
+
 const request = require("request");
 const logarithmic = require("logarithmic");
+const findEmails = require("./findEmails");
 
 module.exports = class Business {
 	constructor(name, website) {
@@ -31,6 +34,14 @@ module.exports = class Business {
 		}
 
 		return website;
+	}
+
+	get formEmail() {
+		return `
+			Hey, ${this.name}!
+
+
+		`
 	}
 
 	email(next) {
