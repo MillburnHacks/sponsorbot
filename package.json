@@ -9,6 +9,8 @@
   "author": "",
   "dependencies": {
     "logarithmic": "^1.1.0",
+    "mongoose": "^4.4.9",
+    "nodemailer": "^2.3.0",
     "request": "^2.69.0"
   }
 }
