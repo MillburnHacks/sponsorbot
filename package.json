@@ -4,13 +4,15 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init": "npm i && node ./src/init"
   },
   "author": "",
   "dependencies": {
     "logarithmic": "^1.1.0",
-    "mongoose": "^4.4.9",
-    "nodemailer": "^2.3.0",
-    "request": "^2.69.0"
+    "nodemailer": "^2.6.4",
+    "prompt": "^1.0.0",
+    "request": "^2.69.0",
+    "shell-arguments": "^1.1.9"
   }
 }
