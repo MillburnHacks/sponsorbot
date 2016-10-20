@@ -14,5 +14,11 @@ To email restaurants in NYC, run:
 node . --query "restaurant" --latitude=40.7128 --longitude=-74.0059
 ```
 
+If you want to email a specific company and have their website, run:
+
+```bash
+node . --url "google.com" --name "Google"
+```
+
 It will ask for your Gmail password so that it can send some emails. It doesn't save your password
 or show it, so it's safe.

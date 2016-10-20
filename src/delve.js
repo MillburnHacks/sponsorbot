@@ -73,7 +73,7 @@ module.exports = (business, next) => {
   request(business.url, (err, code, homepage) => {
     // error handling
     if (err) {
-      logarithmic.warning(err);
+      console.log(err);
       return;
     }
 

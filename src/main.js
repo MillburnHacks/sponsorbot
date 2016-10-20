@@ -11,10 +11,8 @@ const delve = require("./delve");
 const email = require("./email");
 
 // get parameters
-const { query, latitude, longitude } = shellArguments;
-assert(query);
-assert(latitude);
-assert(longitude);
+const { query, latitude, longitude, url, name } = shellArguments;
+assert(query && latitude && longitude || url && name);
 
 // the program will start looking for business emails immediately to save time.
 // while it looks for emails, the user is prompted to enter their password
@@ -27,6 +25,7 @@ assert(longitude);
 const passwordEmitter = new Emitter();
 let password;
 prompt.start();
+console.log(`Using ${data.personal.email}`);
 prompt.get({ properties: { password: { hidden: true } } }, (err, response) => {
   if (err) {
     console.log(err);
@@ -36,9 +35,8 @@ prompt.get({ properties: { password: { hidden: true } } }, (err, response) => {
   passwordEmitter.emit("ready"); // send the waiting emails
 });
 
-scout(data.foursquare, { latitude, longitude }, query, (business) => {
-  delve(business, (businessName, businessEmail) => {
-    // if the password has already been entered, send the email
+if (url) {
+  delve({ name, url: `http://${url}` }, (businessName, businessEmail) => {
     if (password) {
       email(businessName, businessEmail, data.personal.name, data.personal.email, password);
     }
@@ -50,4 +48,20 @@ scout(data.foursquare, { latitude, longitude }, query, (business) => {
       );
     }
   });
-});
+} else {
+  scout(data.foursquare, { latitude, longitude }, query, (business) => {
+    delve(business, (businessName, businessEmail) => {
+      // if the password has already been entered, send the email
+      if (password) {
+        email(businessName, businessEmail, data.personal.name, data.personal.email, password);
+      }
+
+      // if the password has not been entered yet, wait until the "ready" signal is given to send it
+      else {
+        passwordEmitter.on("ready", () =>
+          email(businessName, businessEmail, data.personal.name, data.personal.email, password)
+        )
+      }
+    });
+  });
+}
